@@ -5,7 +5,8 @@ import 'profile_screen.dart';
 import 'registration_screen.dart';
 
 class LoginScreen extends StatefulWidget {
-  const LoginScreen({super.key});
+  final void Function(bool)? onThemeChanged;
+  const LoginScreen({super.key, this.onThemeChanged});
 
   @override
   State<LoginScreen> createState() => _LoginScreenState();
@@ -32,7 +33,8 @@ class _LoginScreenState extends State<LoginScreen> {
       await _auth.saveToken(token);
       if (!mounted) return;
       Navigator.of(context).pushReplacement(
-        MaterialPageRoute(builder: (_) => const ProfileScreen()),
+        MaterialPageRoute(
+            builder: (_) => ProfileScreen(onThemeChanged: widget.onThemeChanged)),
       );
     } else {
       ScaffoldMessenger.of(context)

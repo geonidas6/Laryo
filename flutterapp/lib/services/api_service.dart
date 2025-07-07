@@ -37,4 +37,26 @@ class ApiService {
     }
     return null;
   }
+
+  Future<Map<String, dynamic>?> getSettings(String token) async {
+    final response = await http.get(
+      Uri.parse('$baseUrl/api/settings'),
+      headers: {'Authorization': 'Bearer $token'},
+    );
+    if (response.statusCode == 200) {
+      return jsonDecode(response.body) as Map<String, dynamic>;
+    }
+    return null;
+  }
+
+  Future<void> updateSetting(String token, String key, dynamic value) async {
+    await http.put(
+      Uri.parse('$baseUrl/api/settings/$key'),
+      headers: {
+        'Authorization': 'Bearer $token',
+        'Content-Type': 'application/json'
+      },
+      body: jsonEncode({'value': value.toString()}),
+    );
+  }
 }
