@@ -5,7 +5,7 @@ info:
 servers:
   - url: http://localhost:8000
 paths:
-  /register:
+  /api/register:
     post:
       summary: Register a new user
       requestBody:
@@ -21,7 +21,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/User'
-  /login:
+  /api/login:
     post:
       summary: Authenticate a user
       requestBody:
@@ -37,7 +37,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/AuthToken'
-  /logout:
+  /api/logout:
     post:
       summary: Logout the current user
       security:
@@ -45,7 +45,7 @@ paths:
       responses:
         '204':
           description: Logged out successfully
-  /profile:
+  /api/profile:
     get:
       summary: Retrieve the current user's profile
       security:
