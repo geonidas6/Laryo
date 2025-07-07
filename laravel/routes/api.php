@@ -2,6 +2,7 @@
 
 use App\Http\Requests\Auth\LoginRequest;
 use App\Models\User;
+use App\Models\Badge;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -11,6 +12,7 @@ Route::post('/login', function (LoginRequest $request) {
     $request->authenticate();
     $user = $request->user();
     $token = $user->createToken('api-token')->plainTextToken;
+    $user->addXp(10);
     return response()->json(['token' => $token, 'user' => $user]);
 });
 
@@ -26,6 +28,7 @@ Route::post('/register', function (Request $request) {
         'email' => $attributes['email'],
         'password' => Hash::make($attributes['password']),
     ]);
+    $user->syncBadges();
 
     $token = $user->createToken('api-token')->plainTextToken;
 
@@ -39,3 +42,12 @@ Route::middleware('auth:sanctum')->get('/profile', function (Request $request) {
 Route::middleware('auth:sanctum')->post('/logout', function (Request $request) {
     $request->user()->currentAccessToken()->delete();
     return response()->json([], 204);
+});
+
+Route::get('/badges', function () {
+    return Badge::all();
+});
+
+Route::middleware('auth:sanctum')->get('/user/badges', function (Request $request) {
+    return $request->user()->badges;
+});

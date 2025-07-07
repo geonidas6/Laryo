@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../services/api_service.dart';
 import '../services/secure_auth_service.dart';
 import 'login_screen.dart';
+import '../widgets/badge_wall.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -14,6 +15,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   final ApiService _api = ApiService();
   final SecureAuthService _auth = SecureAuthService();
   Map<String, dynamic>? _profile;
+  List<dynamic>? _badges;
 
   @override
   void initState() {
@@ -25,7 +27,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
     final token = await _auth.getToken();
     if (token == null) return;
     final data = await _api.getProfile(token);
-    setState(() => _profile = data);
+    final badges = await _api.getUserBadges(token);
+    setState(() {
+      _profile = data;
+      _badges = badges;
+    });
   }
 
   Future<void> _logout() async {
@@ -45,11 +51,17 @@ class _ProfileScreenState extends State<ProfileScreen> {
           IconButton(onPressed: _logout, icon: const Icon(Icons.logout))
         ],
       ),
-      body: Center(
-        child: _profile == null
-            ? const CircularProgressIndicator()
-            : Text('Hello ${_profile!['name'] ?? ''}'),
-      ),
+      body: _profile == null
+          ? const Center(child: CircularProgressIndicator())
+          : Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text('Hello ${_profile!['name'] ?? ''}'),
+                const SizedBox(height: 20),
+                if (_badges != null)
+                  Expanded(child: BadgeWall(badges: List<Map<String, dynamic>>.from(_badges!))),
+              ],
+            ),
     );
   }
 }

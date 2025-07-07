@@ -37,4 +37,23 @@ class ApiService {
     }
     return null;
   }
+
+  Future<List<dynamic>> getBadges() async {
+    final response = await http.get(Uri.parse('$baseUrl/api/badges'));
+    if (response.statusCode == 200) {
+      return jsonDecode(response.body) as List<dynamic>;
+    }
+    return [];
+  }
+
+  Future<List<dynamic>> getUserBadges(String token) async {
+    final response = await http.get(
+      Uri.parse('$baseUrl/api/user/badges'),
+      headers: {'Authorization': 'Bearer $token'},
+    );
+    if (response.statusCode == 200) {
+      return jsonDecode(response.body) as List<dynamic>;
+    }
+    return [];
+  }
 }

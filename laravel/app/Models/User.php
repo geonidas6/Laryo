@@ -8,6 +8,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
+use App\Models\Badge;
 
 
 class User extends Authenticatable
@@ -25,6 +26,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'xp',
     ];
 
     /**
@@ -48,5 +50,23 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    public function badges()
+    {
+        return $this->belongsToMany(Badge::class, 'user_badges')->withTimestamps();
+    }
+
+    public function addXp(int $amount): void
+    {
+        $this->increment('xp', $amount);
+        $this->refresh();
+        $this->syncBadges();
+    }
+
+    public function syncBadges(): void
+    {
+        $eligible = Badge::where('xp_threshold', '<=', $this->xp)->pluck('id');
+        $this->badges()->syncWithoutDetaching($eligible->all());
     }
 }
