@@ -45,7 +45,7 @@ flutter pub get
 
 ### Environment variables
 
-The mobile app can receive the API base URL using a dart define:
+The mobile app can receive the API base URL using a dart define or from `flutterapp/.env`:
 
 ```bash
 flutter run --dart-define=API_URL=http://localhost:8000

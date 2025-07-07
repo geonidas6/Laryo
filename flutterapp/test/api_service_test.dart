@@ -4,7 +4,7 @@ import 'package:flutterapp/services/api_service.dart';
 
 void main() {
   test('Base URL loaded from env', () {
-    dotenv.testLoad(fileInput: 'API_BASE_URL=http://test');
+    dotenv.testLoad(fileInput: 'API_URL=http://test');
     final service = ApiService();
     expect(service.baseUrl, 'http://test');
   });
