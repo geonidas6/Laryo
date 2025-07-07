@@ -37,6 +37,9 @@ dependencies:
   http: ^1.1.0
   flutter_dotenv: ^5.0.2
   flutter_secure_storage: ^9.0.0
+  firebase_core: ^2.31.0
+  firebase_messaging: ^14.7.10
+  calendar_view: ^1.0.1
 
 dev_dependencies:
   flutter_test:

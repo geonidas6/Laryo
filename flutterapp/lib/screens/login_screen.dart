@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../services/api_service.dart';
 import '../services/secure_auth_service.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'profile_screen.dart';
 import 'registration_screen.dart';
 
@@ -23,9 +24,11 @@ class _LoginScreenState extends State<LoginScreen> {
   Future<void> _submit() async {
     if (!_formKey.currentState!.validate()) return;
     setState(() => _isLoading = true);
+    final fcmToken = await FirebaseMessaging.instance.getToken();
     final token = await _api.login(
       _emailController.text,
       _passwordController.text,
+      fcmToken,
     );
     setState(() => _isLoading = false);
     if (token != null) {
