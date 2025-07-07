@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../services/api_service.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 
 class RegistrationScreen extends StatefulWidget {
   const RegistrationScreen({super.key});
@@ -20,10 +21,12 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   Future<void> _submit() async {
     if (!_formKey.currentState!.validate()) return;
     setState(() => _loading = true);
+    final fcmToken = await FirebaseMessaging.instance.getToken();
     final success = await _api.register(
       _nameController.text,
       _emailController.text,
       _passwordController.text,
+      fcmToken,
     );
     setState(() => _loading = false);
     if (success) {

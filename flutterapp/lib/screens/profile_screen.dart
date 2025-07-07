@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../services/api_service.dart';
 import '../services/secure_auth_service.dart';
 import 'login_screen.dart';
+import 'events_screen.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -48,7 +49,21 @@ class _ProfileScreenState extends State<ProfileScreen> {
       body: Center(
         child: _profile == null
             ? const CircularProgressIndicator()
-            : Text('Hello ${_profile!['name'] ?? ''}'),
+            : Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text('Hello ${_profile!['name'] ?? ''}'),
+                  const SizedBox(height: 16),
+                  ElevatedButton(
+                    onPressed: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(builder: (_) => const EventsScreen()),
+                      );
+                    },
+                    child: const Text('View Events'),
+                  ),
+                ],
+              ),
       ),
     );
   }

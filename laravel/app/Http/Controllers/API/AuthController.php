@@ -23,6 +23,7 @@ class AuthController extends Controller
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
+            'fcm_token' => $request->fcm_token,
         ]);
 
         $token = $user->createToken('auth_token')->plainTextToken;
@@ -49,6 +50,8 @@ class AuthController extends Controller
         }
 
         $user->tokens()->delete();
+
+        $user->update(['fcm_token' => $request->fcm_token]);
 
         $token = $user->createToken('auth_token')->plainTextToken;
 
