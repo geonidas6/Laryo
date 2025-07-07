@@ -37,4 +37,16 @@ class ApiService {
     }
     return null;
   }
+
+  Future<void> registerDeviceToken(
+      String deviceToken, String authToken) async {
+    await http.post(
+      Uri.parse('$baseUrl/api/device-tokens'),
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer $authToken',
+      },
+      body: jsonEncode({'token': deviceToken}),
+    );
+  }
 }
