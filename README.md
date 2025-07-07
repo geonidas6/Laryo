@@ -53,6 +53,28 @@ flutter run --dart-define=API_URL=http://localhost:8000
 
 In Laravel, configure `APP_URL` and your database credentials in `.env`.
 
+## SSO Authentication
+
+After installing the dependencies with:
+
+```bash
+composer require laravel/socialite laravel/sanctum
+```
+
+You can authenticate users via third party providers.
+
+- `GET /api/sso/redirect/{provider}` redirects the user to the chosen provider.
+- `GET /api/sso/callback/{provider}` returns a JSON response containing a Sanctum token.
+
+Example response:
+
+```json
+{
+  "token": "<token>",
+  "user": { /* user attributes */ }
+}
+```
+
 ## Swagger UI
 
 Pour consulter la documentation de l'API :
