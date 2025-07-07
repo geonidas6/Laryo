@@ -37,4 +37,15 @@ class ApiService {
     }
     return null;
   }
+
+  Future<Map<String, dynamic>> getExperiments(String token) async {
+    final response = await http.get(
+      Uri.parse('$baseUrl/api/experiments'),
+      headers: {'Authorization': 'Bearer $token'},
+    );
+    if (response.statusCode == 200) {
+      return jsonDecode(response.body) as Map<String, dynamic>;
+    }
+    return {};
+  }
 }

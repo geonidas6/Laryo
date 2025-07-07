@@ -14,6 +14,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   final ApiService _api = ApiService();
   final SecureAuthService _auth = SecureAuthService();
   Map<String, dynamic>? _profile;
+  Map<String, dynamic> _experiments = {};
 
   @override
   void initState() {
@@ -25,7 +26,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
     final token = await _auth.getToken();
     if (token == null) return;
     final data = await _api.getProfile(token);
-    setState(() => _profile = data);
+    final exps = await _api.getExperiments(token);
+    setState(() {
+      _profile = data;
+      _experiments = exps;
+    });
   }
 
   Future<void> _logout() async {
@@ -45,11 +50,25 @@ class _ProfileScreenState extends State<ProfileScreen> {
           IconButton(onPressed: _logout, icon: const Icon(Icons.logout))
         ],
       ),
-      body: Center(
-        child: _profile == null
-            ? const CircularProgressIndicator()
-            : Text('Hello ${_profile!['name'] ?? ''}'),
-      ),
+        body: Center(
+          child: _profile == null
+              ? const CircularProgressIndicator()
+              : _buildContent(),
+        ),
+      );
+  }
+
+  Widget _buildContent() {
+    String greeting = 'Hello ${_profile!["name"] ?? ''}';
+    if (_experiments['welcome_message'] == 'new') {
+      greeting = 'Welcome to the new profile, ${_profile!["name"]}';
+    }
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Text(greeting),
+        if (_experiments.isNotEmpty) Text('Experiment: ${_experiments}'),
+      ],
     );
   }
 }
