@@ -4,7 +4,7 @@ import 'package:flutterapp/main.dart';
 
 void main() {
   testWidgets('Shows login screen', (WidgetTester tester) async {
-    await tester.pumpWidget(const MyApp());
+    await tester.pumpWidget(const MyApp(initialToken: null));
     expect(find.text('Login'), findsOneWidget);
   });
 }
