@@ -37,4 +37,21 @@ class ApiService {
     }
     return null;
   }
+
+  Future<bool> updateProfile(String token,
+      {String? avatarUrl, String? bio, String? language}) async {
+    final response = await http.patch(
+      Uri.parse('$baseUrl/api/profile'),
+      headers: {
+        'Authorization': 'Bearer $token',
+        'Content-Type': 'application/json'
+      },
+      body: jsonEncode({
+        'avatar_url': avatarUrl,
+        'bio': bio,
+        'language': language,
+      }),
+    );
+    return response.statusCode == 200;
+  }
 }

@@ -56,7 +56,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/User'
+                $ref: '#/components/schemas/UserProfile'
     patch:
       summary: Update the user's profile
       security:
@@ -73,7 +73,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/User'
+                $ref: '#/components/schemas/UserProfile'
     delete:
       summary: Delete the user's account
       security:
@@ -124,6 +124,12 @@ components:
         email:
           type: string
           format: email
+        avatar_url:
+          type: string
+        bio:
+          type: string
+        language:
+          type: string
     User:
       type: object
       properties:
@@ -138,6 +144,27 @@ components:
           type: string
           format: date-time
           nullable: true
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+        profile:
+          $ref: '#/components/schemas/UserProfile'
+    UserProfile:
+      type: object
+      properties:
+        id:
+          type: integer
+        user_id:
+          type: integer
+        avatar_url:
+          type: string
+        bio:
+          type: string
+        language:
+          type: string
         created_at:
           type: string
           format: date-time

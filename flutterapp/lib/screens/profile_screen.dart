@@ -14,6 +14,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
   final ApiService _api = ApiService();
   final AuthService _auth = AuthService();
   Map<String, dynamic>? _profile;
+  final _avatarController = TextEditingController();
+  final _bioController = TextEditingController();
+  final _languageController = TextEditingController();
 
   @override
   void initState() {
@@ -25,7 +28,22 @@ class _ProfileScreenState extends State<ProfileScreen> {
     final token = await _auth.getToken();
     if (token == null) return;
     final data = await _api.getProfile(token);
-    setState(() => _profile = data);
+    setState(() {
+      _profile = data;
+      _avatarController.text = data?['avatar_url'] ?? '';
+      _bioController.text = data?['bio'] ?? '';
+      _languageController.text = data?['language'] ?? '';
+    });
+  }
+
+  Future<void> _save() async {
+    final token = await _auth.getToken();
+    if (token == null) return;
+    await _api.updateProfile(token,
+        avatarUrl: _avatarController.text,
+        bio: _bioController.text,
+        language: _languageController.text);
+    await _loadProfile();
   }
 
   Future<void> _logout() async {
@@ -45,11 +63,33 @@ class _ProfileScreenState extends State<ProfileScreen> {
           IconButton(onPressed: _logout, icon: const Icon(Icons.logout))
         ],
       ),
-      body: Center(
-        child: _profile == null
-            ? const CircularProgressIndicator()
-            : Text('Hello ${_profile!['name'] ?? ''}'),
-      ),
+      body: _profile == null
+          ? const Center(child: CircularProgressIndicator())
+          : Padding(
+              padding: const EdgeInsets.all(16),
+              child: Column(
+                children: [
+                  TextField(
+                    controller: _avatarController,
+                    decoration: const InputDecoration(labelText: 'Avatar URL'),
+                  ),
+                  TextField(
+                    controller: _bioController,
+                    decoration: const InputDecoration(labelText: 'Bio'),
+                  ),
+                  TextField(
+                    controller: _languageController,
+                    decoration:
+                        const InputDecoration(labelText: 'Language'),
+                  ),
+                  const SizedBox(height: 16),
+                  ElevatedButton(
+                    onPressed: _save,
+                    child: const Text('Save'),
+                  ),
+                ],
+              ),
+            ),
     );
   }
 }
