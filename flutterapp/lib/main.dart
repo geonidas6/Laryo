@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'services/auth_service.dart';
+import 'services/secure_auth_service.dart';
 import 'screens/login_screen.dart';
 import 'screens/profile_screen.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await dotenv.load(fileName: '.env');
-  final auth = AuthService();
+  final auth = SecureAuthService();
   final token = await auth.getToken();
   runApp(MyApp(initialToken: token));
 }
