@@ -15,11 +15,14 @@ it('registers a user via the API', function () {
     $response = $this->postJson('/api/register', $payload);
 
     $response->assertCreated()->assertJsonStructure([
-        'id',
-        'name',
-        'email',
-        'created_at',
-        'updated_at',
+        'token',
+        'user' => [
+            'id',
+            'name',
+            'email',
+            'created_at',
+            'updated_at',
+        ],
     ]);
 
     expect(User::where('email', 'john@example.com')->exists())->toBeTrue();
