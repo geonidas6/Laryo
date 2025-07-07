@@ -1,11 +1,22 @@
 <?php
 
+
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\SSOController;
+
+
 use App\Http\Requests\Auth\LoginRequest;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+
+
+
+Route::get('/sso/redirect/{provider}', [SSOController::class, 'redirect']);
+Route::get('/sso/callback/{provider}', [SSOController::class, 'callback']);
+
 
 Route::post('/login', function (LoginRequest $request) {
     $request->authenticate();

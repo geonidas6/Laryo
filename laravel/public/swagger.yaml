@@ -81,6 +81,34 @@ paths:
       responses:
         '204':
           description: Account deleted
+  /api/sso/redirect/{provider}:
+    get:
+      summary: Redirect to SSO provider
+      parameters:
+        - name: provider
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '302':
+          description: Redirecting to provider
+  /api/sso/callback/{provider}:
+    get:
+      summary: Handle SSO callback
+      parameters:
+        - name: provider
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: SSO login successful
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthToken'
 components:
   securitySchemes:
     BearerAuth:
