@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Requests\Auth\LoginRequest;
+use App\Http\Controllers\API\SyncController;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Request;
@@ -17,7 +18,7 @@ Route::post('/login', function (LoginRequest $request) {
 Route::post('/register', function (Request $request) {
     $attributes = $request->validate([
         'name' => ['required', 'string', 'max:255'],
-        'email' => ['required', 'string', 'email', 'max:255', 'unique:'.User::class],
+        'email' => ['required', 'string', 'email', 'max:255', 'unique:' . User::class],
         'password' => ['required', 'string', 'confirmed'],
     ]);
 
@@ -39,3 +40,6 @@ Route::middleware('auth:sanctum')->get('/profile', function (Request $request) {
 Route::middleware('auth:sanctum')->post('/logout', function (Request $request) {
     $request->user()->currentAccessToken()->delete();
     return response()->json([], 204);
+});
+
+Route::middleware('auth:sanctum')->post('/sync', [SyncController::class, 'store']);
