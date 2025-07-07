@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import '../services/api_service.dart';
-import '../services/auth_service.dart';
+import '../services/secure_auth_service.dart';
 import 'profile_screen.dart';
 import 'registration_screen.dart';
 
@@ -18,7 +18,7 @@ class _LoginScreenState extends State<LoginScreen> {
   bool _isLoading = false;
 
   final ApiService _api = ApiService();
-  final AuthService _auth = AuthService();
+  final SecureAuthService _auth = SecureAuthService();
 
   Future<void> _submit() async {
     if (!_formKey.currentState!.validate()) return;
