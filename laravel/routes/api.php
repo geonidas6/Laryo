@@ -1,10 +1,10 @@
 <?php
 
+use App\Http\Controllers\MediaController;
 use App\Http\Requests\Auth\LoginRequest;
 use App\Models\User;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Route;
 
 Route::post('/login', function (LoginRequest $request) {
@@ -17,7 +17,7 @@ Route::post('/login', function (LoginRequest $request) {
 Route::post('/register', function (Request $request) {
     $attributes = $request->validate([
         'name' => ['required', 'string', 'max:255'],
-        'email' => ['required', 'string', 'email', 'max:255', 'unique:'.User::class],
+        'email' => ['required', 'string', 'email', 'max:255', 'unique:' . User::class],
         'password' => ['required', 'string', 'confirmed'],
     ]);
 
@@ -39,3 +39,7 @@ Route::middleware('auth:sanctum')->get('/profile', function (Request $request) {
 Route::middleware('auth:sanctum')->post('/logout', function (Request $request) {
     $request->user()->currentAccessToken()->delete();
     return response()->json([], 204);
+});
+
+Route::middleware('auth:sanctum')->post('/media', [MediaController::class, 'store']);
+Route::get('/media/{media}', [MediaController::class, 'show']);
