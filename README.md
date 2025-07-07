@@ -53,6 +53,18 @@ flutter run --dart-define=API_URL=http://localhost:8000
 
 In Laravel, configure `APP_URL` and your database credentials in `.env`.
 
+### Storage configuration
+
+Uploaded files are stored using Laravel's filesystem. By default `FILESYSTEM_DISK=local`
+will save files under `storage/app/private`. To serve them locally run:
+
+```bash
+php artisan storage:link
+```
+
+To use Amazon S3 set `FILESYSTEM_DISK=s3` and define your AWS credentials
+(`AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY`, `AWS_DEFAULT_REGION` and `AWS_BUCKET`).
+
 ## Swagger UI
 
 Pour consulter la documentation de l'API :
