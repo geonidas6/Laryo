@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use App\Models\Guide;
 
 Route::post('/login', function (LoginRequest $request) {
     $request->authenticate();
@@ -39,3 +40,8 @@ Route::middleware('auth:sanctum')->get('/profile', function (Request $request) {
 Route::middleware('auth:sanctum')->post('/logout', function (Request $request) {
     $request->user()->currentAccessToken()->delete();
     return response()->json([], 204);
+});
+
+Route::get('/guides', function () {
+    return Guide::where('active', true)->with('steps')->get();
+});

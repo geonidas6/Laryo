@@ -53,6 +53,12 @@ flutter run --dart-define=API_URL=http://localhost:8000
 
 In Laravel, configure `APP_URL` and your database credentials in `.env`.
 
+## Guided Tours
+
+Guides and their steps can be managed from the Laravel backend. The Flutter app
+fetches active guides from `/api/guides` at runtime and displays them using the
+`GuidedTour` widget.
+
 ## Swagger UI
 
 Pour consulter la documentation de l'API :
