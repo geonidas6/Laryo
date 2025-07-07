@@ -72,3 +72,7 @@ Pour consulter la documentation de l'API :
 3. Ouvrez votre navigateur à l'adresse [http://localhost:8000/swagger](http://localhost:8000/swagger).
 
 La documentation se base sur le fichier `public/swagger.yaml`.
+
+## Plugins
+
+See [docs/plugins.md](docs/plugins.md) for details on creating and registering modular plugins for both Laravel and Flutter.

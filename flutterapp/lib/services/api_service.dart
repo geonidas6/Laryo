@@ -37,4 +37,16 @@ class ApiService {
     }
     return null;
   }
+
+  Future<List<String>> getEnabledPlugins() async {
+    final response = await http.get(Uri.parse('$baseUrl/api/plugins'));
+    if (response.statusCode == 200) {
+      final data = jsonDecode(response.body) as Map<String, dynamic>;
+      final list = data['plugins'];
+      if (list is List) {
+        return list.cast<String>();
+      }
+    }
+    return [];
+  }
 }
