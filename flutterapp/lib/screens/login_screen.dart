@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../services/api_service.dart';
 import '../services/auth_service.dart';
+import '../services/analytics_service.dart';
 import 'profile_screen.dart';
 import 'registration_screen.dart';
 
@@ -19,6 +20,13 @@ class _LoginScreenState extends State<LoginScreen> {
 
   final ApiService _api = ApiService();
   final AuthService _auth = AuthService();
+  final AnalyticsService _analytics = AnalyticsService();
+
+  @override
+  void initState() {
+    super.initState();
+    _analytics.trackPage('login');
+  }
 
   Future<void> _submit() async {
     if (!_formKey.currentState!.validate()) return;

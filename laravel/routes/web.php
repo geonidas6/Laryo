@@ -18,3 +18,17 @@ Route::middleware('auth')->group(function () {
 });
 
 require __DIR__.'/auth.php';
+
+Route::post('/api/analytics', function (\Illuminate\Http\Request $request) {
+    \App\Models\Analytics::create([
+        'page' => $request->input('page', $request->path()),
+        'user_id' => $request->user()?->id,
+    ]);
+
+    return response()->noContent();
+})->name('analytics.store');
+
+Route::get('/analytics', function () {
+    $analytics = \App\Models\Analytics::latest()->paginate(50);
+    return view('analytics.index', compact('analytics'));
+})->middleware(['auth', 'verified'])->name('analytics.index');

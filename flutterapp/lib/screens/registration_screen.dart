@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../services/api_service.dart';
+import '../services/analytics_service.dart';
 
 class RegistrationScreen extends StatefulWidget {
   const RegistrationScreen({super.key});
@@ -16,6 +17,13 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   bool _loading = false;
 
   final ApiService _api = ApiService();
+  final AnalyticsService _analytics = AnalyticsService();
+
+  @override
+  void initState() {
+    super.initState();
+    _analytics.trackPage('register');
+  }
 
   Future<void> _submit() async {
     if (!_formKey.currentState!.validate()) return;
