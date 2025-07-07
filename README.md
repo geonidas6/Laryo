@@ -53,6 +53,10 @@ flutter run --dart-define=API_URL=http://localhost:8000
 
 In Laravel, configure `APP_URL` and your database credentials in `.env`.
 
+## Experiments API
+
+Authenticated users can call `/api/experiments` to retrieve their assigned variant for each experiment. The Flutter app uses this endpoint to adapt its UI.
+
 ## Swagger UI
 
 Pour consulter la documentation de l'API :
