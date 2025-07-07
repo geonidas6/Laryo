@@ -52,6 +52,11 @@ flutter run --dart-define=API_URL=http://localhost:8000
 ```
 
 In Laravel, configure `APP_URL` and your database credentials in `.env`.
+## Dynamic Forms
+
+Use the `/api/forms` endpoints to create and manage forms and their fields. After migrating the database, authenticated requests can create forms and fields.
+
+In Flutter, use the `DynamicFormBuilder` widget to render a list of fields and handle submission.
 
 ## Swagger UI
 

@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Requests\Auth\LoginRequest;
+use App\Http\Controllers\API\FormController;
+use App\Http\Controllers\API\FormFieldController;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Request;
@@ -17,7 +19,7 @@ Route::post('/login', function (LoginRequest $request) {
 Route::post('/register', function (Request $request) {
     $attributes = $request->validate([
         'name' => ['required', 'string', 'max:255'],
-        'email' => ['required', 'string', 'email', 'max:255', 'unique:'.User::class],
+        'email' => ['required', 'string', 'email', 'max:255', 'unique:' . User::class],
         'password' => ['required', 'string', 'confirmed'],
     ]);
 
@@ -32,10 +34,16 @@ Route::post('/register', function (Request $request) {
     return response()->json(['token' => $token, 'user' => $user], 201);
 });
 
-Route::middleware('auth:sanctum')->get('/profile', function (Request $request) {
-    return response()->json(['user' => $request->user()]);
-});
+Route::middleware('auth:sanctum')->group(function () {
+    Route::get('/profile', function (Request $request) {
+        return response()->json(['user' => $request->user()]);
+    });
 
-Route::middleware('auth:sanctum')->post('/logout', function (Request $request) {
-    $request->user()->currentAccessToken()->delete();
-    return response()->json([], 204);
+    Route::post('/logout', function (Request $request) {
+        $request->user()->currentAccessToken()->delete();
+        return response()->json([], 204);
+    });
+
+    Route::apiResource('forms', FormController::class);
+    Route::apiResource('forms.fields', FormFieldController::class)->shallow();
+});
