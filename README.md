@@ -75,4 +75,4 @@ La documentation se base sur le fichier `public/swagger.yaml`.
 
 ## License
 
-This project is licensed under the [MIT License](LICENSE).
+Ce projet est distribue sous la licence MIT. Voir le fichier [LICENSE](LICENSE) pour plus d'informations.

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import '../services/api_service.dart';
-import '../services/auth_service.dart';
+import '../services/secure_auth_service.dart';
 import 'login_screen.dart';
 
 class ProfileScreen extends StatefulWidget {
@@ -12,7 +12,7 @@ class ProfileScreen extends StatefulWidget {
 
 class _ProfileScreenState extends State<ProfileScreen> {
   final ApiService _api = ApiService();
-  final AuthService _auth = AuthService();
+  final SecureAuthService _auth = SecureAuthService();
   Map<String, dynamic>? _profile;
 
   @override
