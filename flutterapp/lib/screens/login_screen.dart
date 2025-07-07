@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:easy_localization/easy_localization.dart';
 import '../services/api_service.dart';
 import '../services/auth_service.dart';
 import 'profile_screen.dart';
@@ -36,14 +37,14 @@ class _LoginScreenState extends State<LoginScreen> {
       );
     } else {
       ScaffoldMessenger.of(context)
-          .showSnackBar(const SnackBar(content: Text('Login failed')));
+          .showSnackBar(SnackBar(content: Text('login_failed'.tr())));
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Login')),
+      appBar: AppBar(title: Text('login'.tr())),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Form(
@@ -52,19 +53,19 @@ class _LoginScreenState extends State<LoginScreen> {
             children: [
               TextFormField(
                 controller: _emailController,
-                decoration: const InputDecoration(labelText: 'Email'),
-                validator: (v) => v == null || v.isEmpty ? 'Required' : null,
+                decoration: InputDecoration(labelText: 'email'.tr()),
+                validator: (v) => v == null || v.isEmpty ? 'required'.tr() : null,
               ),
               TextFormField(
                 controller: _passwordController,
-                decoration: const InputDecoration(labelText: 'Password'),
+                decoration: InputDecoration(labelText: 'password'.tr()),
                 obscureText: true,
-                validator: (v) => v == null || v.isEmpty ? 'Required' : null,
+                validator: (v) => v == null || v.isEmpty ? 'required'.tr() : null,
               ),
               const SizedBox(height: 16),
               ElevatedButton(
                 onPressed: _isLoading ? null : _submit,
-                child: const Text('Login'),
+                child: Text('login'.tr()),
               ),
               TextButton(
                 onPressed: () {
@@ -73,7 +74,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         builder: (_) => const RegistrationScreen()),
                   );
                 },
-                child: const Text('Register'),
+                child: Text('register'.tr()),
               )
             ],
           ),

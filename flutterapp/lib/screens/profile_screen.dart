@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:easy_localization/easy_localization.dart';
 import '../services/api_service.dart';
 import '../services/auth_service.dart';
 import 'login_screen.dart';
@@ -40,7 +41,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Profile'),
+        title: Text('profile'.tr()),
         actions: [
           IconButton(onPressed: _logout, icon: const Icon(Icons.logout))
         ],
@@ -48,7 +49,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
       body: Center(
         child: _profile == null
             ? const CircularProgressIndicator()
-            : Text('Hello ${_profile!['name'] ?? ''}'),
+            : Text(tr('hello_name', namedArgs: {'name': _profile!['name'] ?? ''})),
       ),
     );
   }

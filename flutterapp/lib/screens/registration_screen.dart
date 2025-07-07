@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:easy_localization/easy_localization.dart';
 import '../services/api_service.dart';
 
 class RegistrationScreen extends StatefulWidget {
@@ -31,14 +32,14 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
       Navigator.of(context).pop();
     } else {
       ScaffoldMessenger.of(context)
-          .showSnackBar(const SnackBar(content: Text('Registration failed')));
+          .showSnackBar(SnackBar(content: Text('registration_failed'.tr())));
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Register')),
+      appBar: AppBar(title: Text('register'.tr())),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Form(
@@ -47,24 +48,24 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
             children: [
               TextFormField(
                 controller: _nameController,
-                decoration: const InputDecoration(labelText: 'Name'),
-                validator: (v) => v == null || v.isEmpty ? 'Required' : null,
+                decoration: InputDecoration(labelText: 'name'.tr()),
+                validator: (v) => v == null || v.isEmpty ? 'required'.tr() : null,
               ),
               TextFormField(
                 controller: _emailController,
-                decoration: const InputDecoration(labelText: 'Email'),
-                validator: (v) => v == null || v.isEmpty ? 'Required' : null,
+                decoration: InputDecoration(labelText: 'email'.tr()),
+                validator: (v) => v == null || v.isEmpty ? 'required'.tr() : null,
               ),
               TextFormField(
                 controller: _passwordController,
-                decoration: const InputDecoration(labelText: 'Password'),
+                decoration: InputDecoration(labelText: 'password'.tr()),
                 obscureText: true,
-                validator: (v) => v == null || v.isEmpty ? 'Required' : null,
+                validator: (v) => v == null || v.isEmpty ? 'required'.tr() : null,
               ),
               const SizedBox(height: 16),
               ElevatedButton(
                 onPressed: _loading ? null : _submit,
-                child: const Text('Register'),
+                child: Text('register'.tr()),
               ),
             ],
           ),
