@@ -39,4 +39,3 @@ Route::middleware('auth:sanctum')->get('/profile', function (Request $request) {
 Route::middleware('auth:sanctum')->post('/logout', function (Request $request) {
     $request->user()->currentAccessToken()->delete();
     return response()->json([], 204);
-});
