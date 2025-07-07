@@ -37,4 +37,15 @@ class ApiService {
     }
     return null;
   }
+
+  Future<Map<String, dynamic>?> checkVersion(
+      String platform, String version) async {
+    final uri =
+        Uri.parse('$baseUrl/api/version-check?platform=$platform&version=$version');
+    final response = await http.get(uri);
+    if (response.statusCode == 200) {
+      return jsonDecode(response.body) as Map<String, dynamic>;
+    }
+    return null;
+  }
 }
