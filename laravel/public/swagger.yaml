@@ -81,9 +81,27 @@ paths:
       responses:
         '204':
           description: Account deleted
-components:
-  securitySchemes:
-    BearerAuth:
+  /blocks/{key}:
+    get:
+      summary: Fetch CMS block by key
+      parameters:
+        - in: path
+          name: key
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Block details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CmsBlock'
+        '404':
+          description: Block not found
+  components:
+    securitySchemes:
+      BearerAuth:
       type: http
       scheme: bearer
       bearerFormat: JWT
@@ -144,10 +162,27 @@ components:
         updated_at:
           type: string
           format: date-time
-    AuthToken:
-      type: object
-      properties:
-        token:
-          type: string
-        user:
-          $ref: '#/components/schemas/User'
+  AuthToken:
+    type: object
+    properties:
+      token:
+        type: string
+      user:
+        $ref: '#/components/schemas/User'
+  CmsBlock:
+    type: object
+    properties:
+      id:
+        type: integer
+      key:
+        type: string
+      type:
+        type: string
+      value:
+        type: string
+      created_at:
+        type: string
+        format: date-time
+      updated_at:
+        type: string
+        format: date-time
