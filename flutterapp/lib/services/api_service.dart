@@ -37,4 +37,16 @@ class ApiService {
     }
     return null;
   }
+
+  Future<bool> syncRecords(String token, List<Map<String, dynamic>> records) async {
+    final response = await http.post(
+      Uri.parse('$baseUrl/api/sync'),
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer $token',
+      },
+      body: jsonEncode({'records': records}),
+    );
+    return response.statusCode == 200;
+  }
 }
