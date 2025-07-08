@@ -94,7 +94,52 @@ Pour consulter la documentation de l'API :
 3. Ouvrez votre navigateur à l'adresse [http://localhost:8000/swagger](http://localhost:8000/swagger).
 
 La documentation se base sur le fichier `public/swagger.yaml`.
+## Authentication with Socialite & Sanctum
 
+This boilerplate can be extended to support OAuth login and API tokens. Install
+the packages and publish Sanctum's configuration:
+
+```bash
+cd laravel
+composer require laravel/socialite laravel/sanctum
+php artisan vendor:publish --provider="Laravel\Sanctum\SanctumServiceProvider"
+```
+
+Add Sanctum's middleware to the `api` group in `app/Http/Kernel.php` and run the
+migrations. Each Socialite provider (Google, GitHub…) requires credentials in
+`config/services.php` and matching variables in `.env`:
+
+```php
+'github' => [
+    'client_id' => env('GITHUB_CLIENT_ID'),
+    'client_secret' => env('GITHUB_CLIENT_SECRET'),
+    'redirect' => env('GITHUB_REDIRECT_URI'),
+],
+```
+
+After configuration you can authenticate via the provider and receive a Sanctum
+token for the Flutter app.
+
+## Running migrations for `ui_templates` and `features`
+
+When installing optional modules such as `ui_templates` or `features`, run their
+migrations after publishing the package files:
+
+```bash
+php artisan migrate --path=vendor/vendor-name/ui_templates/database/migrations
+php artisan migrate --path=vendor/vendor-name/features/database/migrations
+```
+
+Adjust the path according to where the packages store their migrations.
+
+## Flutter services
+
+The mobile project exposes a small API client in `lib/services`. `ApiService`
+reads `API_BASE_URL` from the Flutter `.env` file and provides methods for
+`login`, `register` and retrieving the authenticated profile. Tokens are
+persisted using `AuthService`, backed by `shared_preferences`. These services
+consume the Laravel endpoints described in `swagger.yaml`.
+=======
 ## License
 
 Ce projet est distribue sous la licence MIT. Voir le fichier [LICENSE](LICENSE) pour plus d'informations.
