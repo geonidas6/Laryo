@@ -48,7 +48,7 @@ flutter pub get
 The mobile app can receive the API base URL using a dart define:
 
 ```bash
-flutter run --dart-define=API_URL=http://localhost:8000
+flutter run --dart-define=API_BASE_URL=http://localhost:8000
 ```
 
 In Laravel, configure `APP_URL` and your database credentials in `.env`.
