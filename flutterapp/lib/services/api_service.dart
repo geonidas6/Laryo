@@ -3,7 +3,7 @@ import 'package:http/http.dart' as http;
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class ApiService {
-  final String baseUrl = dotenv.env['API_BASE_URL'] ?? '';
+  final String baseUrl = dotenv.env['API_URL'] ?? '';
 
   Future<String?> login(String email, String password) async {
     final response = await http.post(
