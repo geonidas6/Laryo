@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import '../services/api_service.dart';
-import '../services/secure_auth_service.dart';
+import '../services/auth_service.dart';
+import '../services/feature_manager_service.dart';
+import '../services/template_service.dart';
 import 'login_screen.dart';
 
 class ProfileScreen extends StatefulWidget {
@@ -12,7 +14,7 @@ class ProfileScreen extends StatefulWidget {
 
 class _ProfileScreenState extends State<ProfileScreen> {
   final ApiService _api = ApiService();
-  final SecureAuthService _auth = SecureAuthService();
+  final AuthService _auth = AuthService();
   Map<String, dynamic>? _profile;
 
   @override
@@ -46,9 +48,26 @@ class _ProfileScreenState extends State<ProfileScreen> {
         ],
       ),
       body: Center(
-        child: _profile == null
-            ? const CircularProgressIndicator()
-            : Text('Hello ${_profile!['name'] ?? ''}'),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            if (templateService.logoUrl != null)
+              Image.network(templateService.logoUrl!, height: 80),
+            Text(templateService.welcomeText),
+            const SizedBox(height: 16),
+            _profile == null
+                ? const CircularProgressIndicator()
+                : Text('Hello ${_profile!['name'] ?? ''}'),
+            if (featureManager.isEnabled('new_profile_banner'))
+              const Padding(
+                padding: EdgeInsets.only(top: 8.0),
+                child: Text(
+                  'New Feature Enabled!',
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                ),
+              ),
+          ],
+        ),
       ),
     );
   }
